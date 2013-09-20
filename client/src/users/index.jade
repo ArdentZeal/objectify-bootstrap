@@ -1,0 +1,12 @@
+p There are {{users.length}} Users
+table
+  thead
+    tr
+      td Name
+      td Username
+      td Password
+  tbody(ng-repeat='user in users')
+    tr
+      td {{user.name}}
+      td {{user.username}}
+      td {{user.passwort}}

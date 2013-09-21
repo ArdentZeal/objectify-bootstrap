@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "express": "~3.4.0",
-    "jade": "~0.31.2",
     "coffee-script": "~1.6.3",
     "mongoose": "~3.6.19"
   }

@@ -1,0 +1,17 @@
+<p>There are {{users.length}} Users</p>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Passwort</th>
+    </tr>
+  </thead>
+  <tbody ng-repeat='user in users'>
+    <tr>
+      <td>{{user.name}}</td>
+      <td>{{user.username}}</td>
+      <td>{{user.passwort}}</td>
+    </tr>
+  </tbody>
+</table>

@@ -1,7 +1,3 @@
 exports.index = function(req, res) {
-  res.render('layout/index');
-};
-
-exports.home = function(req, res) {
-  res.render('static_pages/home');
+  res.sendfile(path.join(__dirname, '..', 'client', 'public', 'index.html'));
 };

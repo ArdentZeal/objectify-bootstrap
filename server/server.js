@@ -5,7 +5,6 @@
 
 var express = require('express'),
   routes_static_pages = require('./routes/static_pages'),
-  routes_users = require('./routes/users'),
   routes_api = require('./routes/api'),
   http = require('http'),
   path = require('path');
@@ -42,11 +41,16 @@ if (app.get('env') === 'production') {
 
 // JSON API - Database
 app.get('/api/name', routes_api.name);
-app.get('/api/users', routes_api.users);
+
+// Users Resource route
+app.get('/api/users', routes_api.get_users);
+app.get('/api/users/:id', routes_api.get_user);
+app.post('/api/users', routes_api.post_user);
+app.put('/api/users/:id', routes_api.put_user);
+app.del('/api/users/:id', routes_api.del_user);
 
 // redirect all others to the index (HTML5 history)
 app.all('/*', function(req, res) {
-  console.log("catch");
   res.sendfile(path.join(__dirname, '..', 'client', 'app', 'index.html'));
 });
 

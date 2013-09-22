@@ -14,6 +14,10 @@ angular.module('objectify', ['objectify.users', 'objectify.static_pages', 'ui.bo
         templateUrl: '/users/index.html',
         controller: 'UserControllerIndex'
       })
+      .when('/users/new', {
+        templateUrl: '/users/new.html',
+        controller: 'UserControllerNew'
+      })
       .otherwise({
         redirectTo: '/'
       });

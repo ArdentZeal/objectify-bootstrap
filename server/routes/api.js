@@ -10,9 +10,33 @@ exports.name = function (req, res) {
   });
 };
 
-exports.users = function (req, res) {
+exports.get_users = function (req, res) {
 	UserProvider2.userModel.find( function(error,users){
 		if(error) { console.log(error) }
-        	res.json( {users: users });
-        });
+
+    res.json( users );
+  });
+};
+
+exports.get_user = function (req, res) {
+  UserProvider2.userModel.findById(req.params.id, function(error, user) {
+  if(error) { console.log(error) }
+
+    res.json( user );
+  })
+};
+
+exports.post_user = function (req, res) {
+  UserProvider2.userModel.create({ name: req.body.name, username: req.body.username, password: req.body.password },
+    function(error, user) {
+      if(error) { console.log(error) }
+        
+    });
+};
+
+exports.put_user = function (req, res) {
+};
+
+exports.del_user = function (req, res) {
+
 };

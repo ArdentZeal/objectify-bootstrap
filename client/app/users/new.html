@@ -1,0 +1,9 @@
+<h1>Create User</h1>
+<form novalidate class="simple-form">
+  Name: <input type="text" ng-model="user.name" /><br />
+  Username: <input type="text" ng-model="user.username" /><br />
+  Password: <input type="text" ng-model="user.password" /><br />
+  <button ng-click="create(user)">SAVE</button>
+</form>
+
+<pre>{{user | json}}</pre>

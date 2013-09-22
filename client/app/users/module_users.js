@@ -2,12 +2,19 @@
 
 /* Users Module */
 
-angular.module('objectify.users', [])
-  
-  .controller('UserControllerIndex', ['$scope', '$http', function ($scope, $http) {
-    $http.get('/api/users').
-      success(function(data, status, headers, config) {
-        $scope.users = data.users;
-      });
+angular.module('objectify.users', ['objectify.resource_service'])
 
-  }]);
+  .controller('UserControllerIndex', function ($scope, Users) {
+    $scope.users = Users.query();
+  })
+
+  .controller("UserControllerNew", function ($scope, Users, $location) {
+
+    $scope.create = function(user) {
+      var newUser = new Users({ name: user.name, username: user.username, password: user.password });
+      console.log(newUser);
+      newUser.$save();
+      $location.path("/users/index");
+    };
+    
+  });

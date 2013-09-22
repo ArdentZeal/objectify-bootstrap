@@ -24,6 +24,7 @@
         <ul class="nav navbar-nav">
           <li><a href='/'>Home</a></li>
           <li><a href="/users/index">User Index</a></li>
+          <li><a href="/users/new">New User</a></li>
         </ul>
       </div>
     </nav>
@@ -32,8 +33,10 @@
     <div ng-view></div>
 
     <script type="text/javascript" src='/vendor/angular/angular.js'></script>
+    <script type="text/javascript" src="/vendor/angular/angular-resource.js"></script>
     <script type="text/javascript" src='/vendor/ui-bootstrap/ui-bootstrap-tpls-0.6.0.js'></script>
     <script type="text/javascript" src='/objectify.js'></script>
+    <script type="text/javascript" src="/services/resource_service.js"></script>
     <script type="text/javascript" src='/users/module_users.js'></script>
     <script type="text/javascript" src='/static_pages/module_static_pages.js'></script>
   </body>

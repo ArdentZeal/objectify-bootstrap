@@ -12,9 +12,13 @@ angular.module('objectify.users', ['objectify.resource_service'])
 
     $scope.create = function(user) {
       var newUser = new Users({ name: user.name, username: user.username, password: user.password });
-      console.log(newUser);
       newUser.$save();
       $location.path("/users/index");
     };
     
+  })
+
+  .controller('UserControllerShow', function ($scope, $routeParams, Users) {
+    var user = Users.get( { id: $routeParams.id } );
+    $scope.user = user;
   });

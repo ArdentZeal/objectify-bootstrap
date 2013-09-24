@@ -35,8 +35,19 @@ exports.post_user = function (req, res) {
 };
 
 exports.put_user = function (req, res) {
+  UserProvider2.userModel.findById(req.params.id, function(error, user) {
+  if(error) { console.log(error) }
+    user.name = req.body.name;
+    user.username = req.body.username;
+    user.password = req.body.password;
+    user.save(function(error) {
+      if (error) { console.log(error); }
+    })
+  })
 };
 
 exports.del_user = function (req, res) {
-
+  UserProvider2.userModel.remove({ _id: req.params.id }, function(error) {
+    if (error) { console.log(error); }
+  })
 };

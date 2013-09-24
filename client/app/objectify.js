@@ -18,6 +18,10 @@ angular.module('objectify', ['objectify.users', 'objectify.static_pages', 'ui.bo
         templateUrl: '/users/new.html',
         controller: 'UserControllerNew'
       })
+      .when('/users/edit/:id', {
+        templateUrl: '/users/edit.html',
+        controller: 'UserControllerEdit'
+      })
       .when('/users/show/:id', {
         templateUrl: '/users/show.html',
         controller: 'UserControllerShow'

@@ -1,8 +1,8 @@
 angular.module('objectify.delete_confirmation', ['ui.bootstrap'])
 
-  .controller("DeleteConfirmationCtrl", function ($scope, $modalInstance, user) {
+  .controller("DeleteConfirmationCtrl", function ($scope, $modalInstance, toDelete) {
 
-  $scope.user = user;
+  $scope.toDelete = toDelete;
 
   $scope.ok = function () {
     $modalInstance.close();

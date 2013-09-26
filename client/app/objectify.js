@@ -2,8 +2,8 @@
 
 // Declare app level module which depends on filters, and services
 
-angular.module('objectify', ['objectify.users', 'objectify.static_pages', 'ui.bootstrap'])
-  .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+angular.module('objectify', ['objectify.users', 'objectify.static_pages', 'ui.bootstrap', 'ngRoute'])
+  .config(function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
     $routeProvider
       .when('/', {
@@ -26,7 +26,11 @@ angular.module('objectify', ['objectify.users', 'objectify.static_pages', 'ui.bo
         templateUrl: '/users/show.html',
         controller: 'UserControllerShow'
       })
+      .when('/users/login', {
+        templateUrl: '/users/login.html',
+        controller: 'UserControllerLogin'
+      })
       .otherwise({
         redirectTo: '/'
       });
-  }]);
+  });

@@ -4,6 +4,7 @@
  */
 
 var express = require('express'),
+  passport = require('passport'),
   routes_static_pages = require('./routes/static_pages'),
   routes_api = require('./routes/api'),
   http = require('http'),
@@ -19,6 +20,15 @@ var app = module.exports = express();
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.use(express.logger('dev'));
+app.use(express.cookieParser());
+app.use(express.session({
+  secret: 'axonic_secret'
+}));
+// Initialize Passport!  Also use passport.session() middleware, to support
+// persistent login sessions (recommended).
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, '..', 'client', 'app')));
@@ -40,7 +50,7 @@ if (app.get('env') === 'production') {
  */
 
 // JSON API - Database
-app.get('/api/name', routes_api.name);
+app.get('/api/name', routes_api.name);   
 
 // Users Resource route
 app.get('/api/users', routes_api.get_users);

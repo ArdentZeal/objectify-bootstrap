@@ -4,11 +4,14 @@
  */
 
 var express = require('express'),
+  mongoose = require('mongoose'),
   passport = require('passport'),
   routes_static_pages = require('./routes/static_pages'),
   routes_api = require('./routes/api'),
   http = require('http'),
-  path = require('path');
+  path = require('path'),
+  passconfig = require('./passport/pass'),
+  auth = require('./passport/authentication');
 
 var app = module.exports = express();
 
@@ -16,6 +19,19 @@ var app = module.exports = express();
 /**
  * Configuration
  */
+
+ // db
+ var env = process.env.NODE_ENV || 'development',
+  config = require('./config')[env];
+
+
+mongoose.connect(config.db, config.mongoOptions, function (err, res) {
+  if (err) { 
+    console.log ('ERROR connecting to: ' + config.db + '. ' + err);
+  } else {
+    console.log ('Successfully connected to: ' + config.db);
+  }
+});
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -44,13 +60,41 @@ if (app.get('env') === 'production') {
   // TODO
 };
 
+// log authentication to console
+/*app.use(function(req, res, next) {
+  if ( req.user ) {
+    console.log('Current User:' + req.user.name);
+  } else {
+    console.log('Unauthenticated');
+  }
+  next();
+});*/
 
 /**
  * Routes
  */
 
-// JSON API - Database
-app.get('/api/name', routes_api.name);   
+// Authentication
+/*app.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    console.log('authenticate callback');
+    console.log(req.user);
+    res.send(200);
+  }) (req, res, next);
+});*/ 
+
+app.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) { return next(err); }
+    //if (!user) { return res.redirect('/users/login'); } TODO: throw right error
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      return res.send(200);
+    });
+  })(req, res, next);
+});
+
+app.get('/currentuser', auth.sendCurrentUser);
 
 // Users Resource route
 app.get('/api/users', routes_api.get_users);

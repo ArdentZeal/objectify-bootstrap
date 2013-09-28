@@ -114,8 +114,15 @@ angular.module('objectify.users', ['objectify.resource_service', 'objectify.dele
     });
   })
 
-  .controller('UserControllerLogin', function ($scope) {
+  .controller('UserControllerLogin', function ($scope, $http, $location) {
     $scope.login = function() {
-      console.log("Login pressed!");
+      var promise = $http.post("/login", { username: $scope.login.username, password:$scope.login.password });
+      promise.then(function() {
+        $location.path("/");
+      });
+
+      promise.catch(function() {
+        console.log("error logging in");
+      });
     }
   });

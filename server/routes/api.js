@@ -2,7 +2,7 @@
  * Serve JSON to our AngularJS client
  */
 
- var UserProvider2 = require('../db/UserProvider2');
+ var User = require('../models/User');
 
 exports.name = function (req, res) {
   res.json({
@@ -11,7 +11,7 @@ exports.name = function (req, res) {
 };
 
 exports.get_users = function (req, res) {
-	UserProvider2.userModel.find( function(error,users){
+	User.find( function(error,users){
 		if(error) { console.log(error) }
 
     res.json( users );
@@ -19,7 +19,7 @@ exports.get_users = function (req, res) {
 };
 
 exports.get_user = function (req, res) {
-  UserProvider2.userModel.findById(req.params.id, function(error, user) {
+  User.findById(req.params.id, function(error, user) {
   if(error) { console.log(error) }
 
     res.json( user );
@@ -27,7 +27,7 @@ exports.get_user = function (req, res) {
 };
 
 exports.post_user = function (req, res) {
-  UserProvider2.userModel.create({ name: req.body.name, username: req.body.username, email: req.body.email, password: req.body.password },
+  User.create({ name: req.body.name, username: req.body.username, email: req.body.email, password: req.body.password },
     function(error, user) {
       if(error) { console.log(error) }
       res.send(200);
@@ -35,7 +35,7 @@ exports.post_user = function (req, res) {
 };
 
 exports.put_user = function (req, res) {
-  UserProvider2.userModel.findById(req.params.id, function(error, user) {
+  User.findById(req.params.id, function(error, user) {
   if(error) { console.log(error) }
     user.name = req.body.user.name;
     user.username = req.body.user.username;
@@ -49,7 +49,7 @@ exports.put_user = function (req, res) {
 };
 
 exports.del_user = function (req, res) {
-  UserProvider2.userModel.remove({ _id: req.params.id }, function(error) {
+  User.remove({ _id: req.params.id }, function(error) {
     if (error) { console.log(error); }
     res.send(200);
   })

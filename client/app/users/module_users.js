@@ -2,7 +2,7 @@
 
 /* Users Module */
 
-angular.module('objectify.users', ['objectify.resource_service', 'objectify.delete_confirmation', 'ui.bootstrap'])
+angular.module('objectify.users', ['objectify.resource_service', 'objectify.delete_confirmation', 'ui.bootstrap', 'objectify.authentication'])
 
   .controller('UserControllerIndex', function ($scope, Users, $modal) {
     
@@ -114,15 +114,8 @@ angular.module('objectify.users', ['objectify.resource_service', 'objectify.dele
     });
   })
 
-  .controller('UserControllerLogin', function ($scope, $http, $location) {
+  .controller('UserControllerLogin', function ($scope, $http, $location, authentication) {
     $scope.login = function() {
-      var promise = $http.post("/login", { username: $scope.login.username, password:$scope.login.password });
-      promise.then(function() {
-        $location.path("/");
-      });
-
-      promise.catch(function() {
-        console.log("error logging in");
-      });
+      authentication.login({ username: $scope.login.username, password:$scope.login.password });
     }
   });

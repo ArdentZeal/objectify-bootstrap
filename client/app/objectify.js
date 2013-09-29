@@ -1,14 +1,14 @@
 'use strict';
 
-// Declare app level module which depends on filters, and services
+// Declare app level module 
 
-angular.module('objectify', ['objectify.users', 'objectify.static_pages', 'ui.bootstrap', 'ngRoute'])
+angular.module('objectify', ['objectify.users', 'objectify.static_pages', 'objectify.header', 'ui.bootstrap', 'ngRoute', 'objectify.authentication'])
   .config(function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
     $routeProvider
       .when('/', {
         templateUrl: '/static_pages/home.html',
-        controller: 'HomeCtrl'
+        controller: 'HomeController'
       })
       .when('/users/index', {
         templateUrl: '/users/index.html',
@@ -33,4 +33,8 @@ angular.module('objectify', ['objectify.users', 'objectify.static_pages', 'ui.bo
       .otherwise({
         redirectTo: '/'
       });
+  })
+
+  .run(function(authentication) {
+    authentication.requestCurrentUser();
   });

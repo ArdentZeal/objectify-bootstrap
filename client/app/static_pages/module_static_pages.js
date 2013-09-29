@@ -1,11 +1,9 @@
-angular.module('objectify.static_pages', [])
+angular.module('objectify.static_pages', ['objectify.authentication'])
  
-  .controller('HomeCtrl', function ($scope, $http) {
-
-    $scope.name = "guest";
-    $http.get("/currentuser").then(function(result) {
-      if(result.data.user) {
-        $scope.name = result.data.user.name;
-      }
+  .controller('HomeController', function ($scope, authentication) {
+    $scope.$watch(function() {
+      return authentication.currentUser;
+    }, function(currentUser) {
+      $scope.user = currentUser;
     });
   });

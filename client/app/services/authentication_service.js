@@ -1,5 +1,5 @@
-angular.module('objectify.authentication', [])
-  .factory('authentication', function($http, $q, $location) {
+angular.module('objectify.authentication', ['objectify.flash'])
+  .factory('authentication', function($http, $q, $location, alertService) {
     var authentication = {
       // Information about the current user
       currentUser: null,
@@ -21,21 +21,27 @@ angular.module('objectify.authentication', [])
       },
 
       logout: function() {
-        $http.post('/logout').then(function() {
+        var promise = $http.post('/logout')
+        promise.then(function(response) {
           authentication.currentUser = null;
+          alertService.add("success", "Logged out successfully");
           $location.path("/");
+        });
+        promise.catch(function(response) {
+          alertService.add("danger", response.data.error.message);
         });
       },
 
       login: function(loginData) {
         var promise = $http.post("/login", loginData);
-        promise.then(function() {
-          authentication.requestCurrentUser();
+        promise.then(function(response) {
+          authentication.currentUser = response.data;
+          alertService.add("success", "Logged in successfully");
           $location.path("/");
         });
 
-        promise.catch(function() {
-          console.log("error logging in");
+        promise.catch(function(response) {
+          alertService.add("danger", response.data.error.message);
         });
       }
     }

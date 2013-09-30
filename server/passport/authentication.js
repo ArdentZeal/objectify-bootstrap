@@ -19,7 +19,7 @@ var authentication = {
   },
   logout: function(req, res, next) {
     req.logout();
-    res.send(204);
+    res.send(202);
   }
 };
 

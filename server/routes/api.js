@@ -4,23 +4,23 @@
 
  var User = require('../models/User');
 
-exports.name = function (req, res) {
-  res.json({
-  	name: 'Matthias'
-  });
-};
-
 exports.get_users = function (req, res) {
 	User.find( function(error,users){
-		if(error) { console.log(error) }
+		if(error) { 
+      console.log(error);
+      res.json(500, error); 
+    }
 
-    res.json( users );
+    res.json(200, users);
   });
 };
 
 exports.get_user = function (req, res) {
   User.findById(req.params.id, function(error, user) {
-  if(error) { console.log(error) }
+    if(error) { 
+      console.log(error);
+      res.json(500, error); 
+    }
 
     res.json( user );
   })
@@ -29,8 +29,12 @@ exports.get_user = function (req, res) {
 exports.post_user = function (req, res) {
   User.create({ name: req.body.name, username: req.body.username, email: req.body.email, password: req.body.password },
     function(error, user) {
-      if(error) { console.log(error) }
-      res.send(200);
+      if(error) { 
+        console.log(error);
+        res.json(500, error); 
+      }
+
+      res.send(201, user);
     });
 };
 
@@ -42,15 +46,22 @@ exports.put_user = function (req, res) {
     user.email = req.body.user.email;
     user.password = req.body.user.password;
     user.save(function(error) {
-      if (error) { console.log(error); }
-      res.send(200);
+      if(error) { 
+        console.log(error);
+        res.json(500, error); 
+      } 
+      
+      res.send(202, user);
     })
   })
 };
 
 exports.del_user = function (req, res) {
   User.remove({ _id: req.params.id }, function(error) {
-    if (error) { console.log(error); }
+    if(error) { 
+      console.log(error);
+      res.json(500, error); 
+    }
     res.send(200);
   })
 };

@@ -36,10 +36,8 @@ mongoose.connect(config.db, config.mongoOptions, function (err, res) {
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.use(express.logger('dev'));
-app.use(express.cookieParser());
-app.use(express.session({
-  secret: 'axonic_secret'
-}));
+app.use(express.cookieParser("super_secret"));  // Hash cookies with this secret
+app.use(express.cookieSession());                           // Store the session in the (secret) cookie
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
 app.use(passport.initialize());
@@ -60,44 +58,28 @@ if (app.get('env') === 'production') {
   // TODO
 };
 
-// log authentication to console
-/*app.use(function(req, res, next) {
-  if ( req.user ) {
-    console.log('Current User:' + req.user.name);
-  } else {
-    console.log('Unauthenticated');
-  }
-  next();
-});*/
-
 /**
  * Routes
  */
 
-// Authentication
-/*app.post('/login', function(req, res, next) {
-  passport.authenticate('local', function(err, user, info) {
-    console.log('authenticate callback');
-    console.log(req.user);
-    res.send(200);
-  }) (req, res, next);
-});*/ 
-
 app.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
-    if (err) { return next(err); }
-    //if (!user) { return res.redirect('/users/login'); } TODO: throw right error
+    if (err) { 
+      return next(err);
+    }
+    if (!user) { 
+      return next(new Error("User not found"));
+    } 
     req.logIn(user, function(err) {
-      if (err) { return next(err); }
-      return res.send(200);
+      if (err) { 
+      return next(err);
+    }
+      return res.json(202, user);
     });
   })(req, res, next);
 });
 
-app.post('/logout', function(req, res, next) {
-  req.logout();
-  res.send(204);
-});
+app.post('/logout', auth.logout);
 
 app.get('/currentuser', auth.sendCurrentUser);
 
@@ -113,6 +95,8 @@ app.all('/*', function(req, res) {
   res.sendfile(path.join(__dirname, '..', 'client', 'app', 'index.html'));
 });
 
+// A standard error handler - it picks up any left over errors and returns a nicely formatted server 500 error
+app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 
 /**
  * Start Server

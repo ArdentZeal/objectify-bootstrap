@@ -12,16 +12,16 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-passport.use(new LocalStrategy(function(username, password, done) {
+passport.use(new LocalStrategy(function(username, password, finished) {
   User.findOne({ username: username }, function(err, user) {
-    if (err) { return done(err); }
-    if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
+    if (err) { return finished(err); }
+    if (!user) { return finished(null, false, { message: 'Unknown user ' + username }); }
     user.comparePassword(password, function(err, isMatch) {
-      if (err) return done(err);
+      if (err) return finished(err);
       if(isMatch) {
-        return done(null, user);
+        return finished(null, user);
       } else {
-        return done(null, false, { message: 'Invalid password' });
+        return finished(null, false, { message: 'Invalid password' });
       }
     });
   });

@@ -40,7 +40,11 @@
         </ul>
       </div>
     </nav>
-      
+
+    <!-- Alerts -->
+    <div>
+      <alert ng-repeat="alert in alerts" type="alert.type" close="alert.close()">{{ alert.msg }}</alert>
+    </div>
 
     <div ng-view></div>
 
@@ -51,6 +55,7 @@
     <script type="text/javascript" src='/objectify.js'></script>
     <script type="text/javascript" src='/services/resource_service.js'></script>
     <script type="text/javascript" src='/services/authentication_service.js'></script>
+    <script type="text/javascript" src='/services/flash_service.js'></script>
     <script type="text/javascript" src='/layout/module_header.js'></script>
     <script type="text/javascript" src='/users/module_users.js'></script>
     <script type="text/javascript" src='/static_pages/module_static_pages.js'></script>

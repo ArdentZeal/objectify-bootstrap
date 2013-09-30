@@ -2,9 +2,9 @@
 
 /* Users Module */
 
-angular.module('objectify.users', ['objectify.resource_service', 'objectify.delete_confirmation', 'ui.bootstrap', 'objectify.authentication'])
+angular.module('objectify.users', ['objectify.resource_service', 'objectify.delete_confirmation', 'ui.bootstrap', 'objectify.authentication', 'objectify.flash'])
 
-  .controller('UserControllerIndex', function ($scope, Users, $modal) {
+  .controller('UserControllerIndex', function ($scope, Users, $modal, alertService) {
     
     function fetchAllUsers() {
       var promise = Users.query().$promise;
@@ -12,8 +12,8 @@ angular.module('objectify.users', ['objectify.resource_service', 'objectify.dele
         $scope.users = data;
       });
 
-      promise.catch(function(response) {
-        error.log(response);
+      promise.catch(function(error) {
+        alertService.add("error", error);
       });
     }
 
@@ -39,6 +39,7 @@ angular.module('objectify.users', ['objectify.resource_service', 'objectify.dele
 
     function deleteUser(user) {
       user.$delete();
+      alertService.add("success", "Deleted user " + user.name + "!");
       // after delete, get updated users from db
       fetchAllUsers();
     }
@@ -62,17 +63,17 @@ angular.module('objectify.users', ['objectify.resource_service', 'objectify.dele
     };
   })
 
-  .controller("UserControllerNew", function ($scope, Users, $location) {
+  .controller("UserControllerNew", function ($scope, Users, $location, alertService) {
 
-    function scb() {
+    function scb(data) {
       // successCB
-        $location.path("/users/index");
+      $location.path("/users/index");
+      alertService.add("success", "User " + data.name + " successfully created!");
     }
 
-    function ecb() {
+    function ecb(error) {
       // errorCB
-        // nothing to do
-        console.log("error");
+      $alertService.add("error", error);
     }
 
     $scope.create = function(user) {
@@ -82,7 +83,7 @@ angular.module('objectify.users', ['objectify.resource_service', 'objectify.dele
     };
   })
 
-  .controller("UserControllerEdit", function ($scope, Users, $routeParams, $location) {
+  .controller("UserControllerEdit", function ($scope, Users, $routeParams, $location, alertService) {
 
     // show old values
     var promise = Users.get( { id: $routeParams.id } ).$promise;
@@ -90,15 +91,15 @@ angular.module('objectify.users', ['objectify.resource_service', 'objectify.dele
       $scope.user = data;
     });
 
-    function scb() {
+    function scb(data) {
       // successCB
       $location.path("/users/index");
+      alertService.add("success", "User " + data.name + " successfully updated!");
     }
 
     function ecb(error) {
       // errorCB
-      // nothing to do
-      console.log(error);
+      alertService.add("error", error);
     }
     
     $scope.edit = function() {

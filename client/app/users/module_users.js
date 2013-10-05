@@ -39,7 +39,7 @@ angular.module('objectify.users', ['objectify.resource_service', 'objectify.dele
 
     function deleteUser(user) {
       user.$delete();
-      alertService.add("success", "Deleted user " + user.name + "!");
+      alertService.add("success", "Deleted user " + user.firstname + " " + user.lastname + "!");
       // after delete, get updated users from db
       fetchAllUsers();
     }
@@ -68,7 +68,7 @@ angular.module('objectify.users', ['objectify.resource_service', 'objectify.dele
     function scb(data) {
       // successCB
       $location.path("/users/index");
-      alertService.add("success", "User " + data.name + " successfully created!");
+      alertService.add("success", "User " + user.firstname + " " + user.lastname + " successfully created!");
     }
 
     function ecb(error) {
@@ -77,7 +77,7 @@ angular.module('objectify.users', ['objectify.resource_service', 'objectify.dele
     }
 
     $scope.create = function(user) {
-      var newUser = new Users({ name: user.name, username: user.username, email: user.email, password: user.password });
+      var newUser = new Users({ firstname: user.firstname, lastname:user.lastname, username: user.username, email: user.email, password: user.password });
       var promise = newUser.$save();
       promise.then(scb, ecb);
     };
@@ -118,5 +118,5 @@ angular.module('objectify.users', ['objectify.resource_service', 'objectify.dele
   .controller('UserControllerLogin', function ($scope, $http, $location, authentication) {
     $scope.login = function() {
       authentication.login({ username: $scope.login.username, password:$scope.login.password });
-    }
+    };
   });

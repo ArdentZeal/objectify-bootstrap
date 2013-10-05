@@ -5,7 +5,9 @@ var filterUser = function(user) {
         id: user._id,
         email: user.email,
         username: user.username,
-        name: user.name
+        firstname: user.firstname,
+        lastname: user.lastname,
+        facebookID: user.facebookID
       }
     };
   } else {

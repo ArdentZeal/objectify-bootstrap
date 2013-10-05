@@ -5,9 +5,10 @@
 
 var express = require('express'),
   mongoose = require('mongoose'),
+  SessionStore = require("session-mongoose")(express);
   passport = require('passport'),
   routes_static_pages = require('./routes/static_pages'),
-  routes_api = require('./routes/api'),
+  routes_user = require('./routes/user'),
   http = require('http'),
   path = require('path'),
   passconfig = require('./passport/pass'),
@@ -36,8 +37,16 @@ mongoose.connect(config.db, config.mongoOptions, function (err, res) {
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.use(express.logger('dev'));
-app.use(express.cookieParser("super_secret"));  // Hash cookies with this secret
-app.use(express.cookieSession());                           // Store the session in the (secret) cookie
+app.use(express.cookieParser("super_secret"));  // Hash cookies with this secret              
+
+var store = new SessionStore({
+    url: "mongodb://localhost/session",
+    interval: 120000 // expiration check worker run interval in millisec (default: 60000)
+});
+app.use(express.session({
+    store: store,
+    cookie: { maxAge: 100*60*60*60*24*30 } // expire session in 30 days
+})); 
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
 app.use(passport.initialize());
@@ -83,12 +92,28 @@ app.post('/logout', auth.logout);
 
 app.get('/currentuser', auth.sendCurrentUser);
 
+// FACEBOOK
+//==========
+//
+// Redirect the user to Facebook for authentication.  When complete,
+// Facebook will redirect the user back to the application at
+//     /auth/facebook/callback
+app.get('/auth/facebook', passport.authenticate('facebook', { scope: "email" }));
+
+// Facebook will redirect the user to this URL after approval.  Finish the
+// authentication process by attempting to obtain an access token.  If
+// access was granted, the user will be logged in.  Otherwise,
+// authentication has failed.
+app.get('/auth/facebook/callback', passport.authenticate('facebook'), function(req, res, next) {
+  res.redirect("/users/index");
+});
+
 // Users Resource route
-app.get('/api/users', routes_api.get_users);
-app.get('/api/users/:id', routes_api.get_user);
-app.post('/api/users', routes_api.post_user);
-app.put('/api/users/:id', routes_api.put_user);
-app.del('/api/users/:id', routes_api.del_user);
+app.get('/api/users', routes_user.get_users);
+app.get('/api/users/:id', routes_user.get_user);
+app.post('/api/users', routes_user.post_user);
+app.put('/api/users/:id', routes_user.put_user);
+app.del('/api/users/:id', routes_user.del_user);
 
 // redirect all others to the index (HTML5 history)
 app.all('/*', function(req, res) {

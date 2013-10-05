@@ -27,7 +27,7 @@ exports.get_user = function (req, res) {
 };
 
 exports.post_user = function (req, res) {
-  User.create({ name: req.body.name, username: req.body.username, email: req.body.email, password: req.body.password },
+  User.create({ firstname: req.body.firstname, lastname: req.body.lastname, username: req.body.username, email: req.body.email, password: req.body.password },
     function(error, user) {
       if(error) { 
         console.log(error);
@@ -41,7 +41,8 @@ exports.post_user = function (req, res) {
 exports.put_user = function (req, res) {
   User.findById(req.params.id, function(error, user) {
   if(error) { console.log(error) }
-    user.name = req.body.user.name;
+    user.firstname = req.body.user.firstname;
+    user.lastname = req.body.user.lastname;
     user.username = req.body.user.username;
     user.email = req.body.user.email;
     user.password = req.body.user.password;

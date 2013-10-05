@@ -29,7 +29,7 @@
 
         <ul class="nav navbar-nav pull-right">
           <li ng-show="isAuthenticated()">
-            <a href="#">{{user.name}}</a>
+            <a href="#">{{user.firstname}} {{user.lastname}}</a>
           </li>
           <li ng-show="isAuthenticated()">
             <a href="#" ng-click="logout()">Logout</a>

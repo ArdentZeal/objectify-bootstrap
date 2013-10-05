@@ -2,19 +2,21 @@
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th>Name</th>
+      <th>Firstname</th>
+      <th>Lastname</th>
       <th>Username</th>
       <th>Email</th>
-      <th>Password</th>
+      <th>FacebookID</tH>
       <th>Links</th>
     </tr>
   </thead>
   <tbody ng-repeat='user in users'>
     <tr>
-      <td>{{user.name}}</td>
+      <td>{{user.firstname}}</td>
+      <td>{{user.lastname}}</td>
       <td>{{user.username}}</td>
       <td>{{user.email}}</td>
-      <td>{{user.password}}</td>
+      <td>{{user.facebookID}}</td>
       <td>
         <a href="/users/show/{{user._id}}" class="btn btn-default">Show</a>
         <a href="/users/edit/{{user._id}}" class="btn btn-default">Edit</a>

@@ -15,7 +15,9 @@ passport.deserializeUser(function(id, done) {
 
 passport.use(new LocalStrategy(function(username, password, done) {
   User.findOne({ username: username }, function(err, user) {
+    console.log("here");
     if (err) { return done(err); }
+    console.log("there");
     if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
     user.comparePassword(password, function(err, isMatch) {
       if (err) return done(err);

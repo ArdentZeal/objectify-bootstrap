@@ -1,0 +1,10 @@
+<form novalidate class="simple-form">
+  Modelname: <input type="text" ng-model="object.modelname" /><br />
+  <div ng-repeat="field in fields">
+      {{field.name}} <input type="{{field.type}}" />
+  </div>
+  <hr />
+  <add-form-field></add-form-field>
+  <pre>{{fields | json}}</pre>
+  <hr />
+</form>

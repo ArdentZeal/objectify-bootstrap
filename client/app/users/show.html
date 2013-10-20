@@ -4,3 +4,4 @@
 <p>Username: {{user.username}}</p>
 <p>Email: {{user.email}}</p>
 <p>FacebookID: {{user.facebookID}}</p>
+<p><span>Addresses:</span><ul ng-repeat="address in user.addresses"><li>{{address.street}} {{address.number}}</li></ul></p>

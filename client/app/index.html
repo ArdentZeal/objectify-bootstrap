@@ -25,11 +25,13 @@
         <ul class="nav navbar-nav">
           <li><a href='/'>Home</a></li>
           <li><a href="/users/index">Users</a></li>
+          <li><a href="/addresses/index">Addresses</a></li>
+          <li><a href="/objects/new">New Object</a></li>
         </ul>
 
         <ul class="nav navbar-nav pull-right">
           <li ng-show="isAuthenticated()">
-            <a href="#">{{user.firstname}} {{user.lastname}}</a>
+            <a href="/users/show/{{user.id}}">{{user.firstname}} {{user.lastname}}</a>
           </li>
           <li ng-show="isAuthenticated()">
             <a href="#" ng-click="logout()">Logout</a>
@@ -58,6 +60,9 @@
     <script type="text/javascript" src='/services/flash_service.js'></script>
     <script type="text/javascript" src='/layout/module_header.js'></script>
     <script type="text/javascript" src='/users/module_users.js'></script>
+    <script type="text/javascript" src='/addresses/module_addresses.js'></script>
+    <script type="text/javascript" src='/objects/module_objects.js'></script>
+    <script type="text/javascript" src='/objects/objects_directive.js'></script>
     <script type="text/javascript" src='/static_pages/module_static_pages.js'></script>
     <script type="text/javascript" src='/shared/delete_confirmation.js'></script>
   </body>

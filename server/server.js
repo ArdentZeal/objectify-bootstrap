@@ -1,3 +1,4 @@
+"use strict";
 
 /**
  * Module dependencies
@@ -5,10 +6,10 @@
 
 var express = require('express'),
   mongoose = require('mongoose'),
-  SessionStore = require("session-mongoose")(express);
+  SessionStore = require("session-mongoose")(express),
   passport = require('passport'),
-  routes_static_pages = require('./routes/static_pages'),
   routes_user = require('./routes/user'),
+  routes_address = require('./routes/address'),
   http = require('http'),
   path = require('path'),
   passconfig = require('./passport/pass'),
@@ -108,12 +109,29 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook'), function(r
   res.redirect("/users/index");
 });
 
-// Users Resource route
-app.get('/api/users', routes_user.get_users);
-app.get('/api/users/:id', routes_user.get_user);
-app.post('/api/users', routes_user.post_user);
-app.put('/api/users/:id', routes_user.put_user);
-app.del('/api/users/:id', routes_user.del_user);
+// Users resource routes
+app.get('/api/users', routes_user.all);
+app.get('/api/users/:id', routes_user.show);
+app.post('/api/users', routes_user.create);
+app.put('/api/users/:id', routes_user.update);
+app.del('/api/users/:id', routes_user.del);
+
+// Address resource routes
+app.get('/api/addresses', routes_address.all);
+app.get('/api/addresses/:id', routes_address.show);
+app.post('/api/addresses', routes_address.create);
+app.put('/api/addresses/:id', routes_address.update);
+app.del('/api/addresses/:id', routes_address.del);
+
+// New Object
+app.post('/api/objects', function(req, res, next) {
+ console.log(req.body.object.modelname);
+ // TODO
+ // create schema
+ // create object
+ // check if schema already is there
+});
+
 
 // redirect all others to the index (HTML5 history)
 app.all('/*', function(req, res) {

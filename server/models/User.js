@@ -1,6 +1,7 @@
 "use strict";
 
-var mongoose = require('mongoose'), 
+var mongoose = require('mongoose'),
+  Address = require('../models/Address'),
   bcrypt = require('bcrypt'),
   SALT_WORK_FACTOR = 10;
 
@@ -9,6 +10,7 @@ var UserSchema = mongoose.Schema({
   lastname: String,
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
+  addresses: [{type: mongoose.Schema.Types.ObjectId, ref: "Address"}],
   password: { type: String },
   facebookID: String
 });
@@ -37,5 +39,6 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
 };
 
 var User = mongoose.model("User", UserSchema);
+exports.Schema = UserSchema;
 module.exports = User;
 

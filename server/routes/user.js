@@ -4,8 +4,8 @@
 
  var User = require('../models/User');
 
-exports.get_users = function (req, res) {
-	User.find( function(error,users){
+exports.all = function (req, res) {
+	User.find().populate("addresses").exec(function(error,users){
 		if(error) { 
       console.log(error);
       res.json(500, error); 
@@ -15,8 +15,8 @@ exports.get_users = function (req, res) {
   });
 };
 
-exports.get_user = function (req, res) {
-  User.findById(req.params.id, function(error, user) {
+exports.show = function (req, res) {
+  User.findById(req.params.id).populate("addresses").exec(function(error, user) {
     if(error) { 
       console.log(error);
       res.json(500, error); 
@@ -26,7 +26,7 @@ exports.get_user = function (req, res) {
   })
 };
 
-exports.post_user = function (req, res) {
+exports.create = function (req, res) {
   User.create({ firstname: req.body.firstname, lastname: req.body.lastname, username: req.body.username, email: req.body.email, password: req.body.password },
     function(error, user) {
       if(error) { 
@@ -38,7 +38,7 @@ exports.post_user = function (req, res) {
     });
 };
 
-exports.put_user = function (req, res) {
+exports.update = function (req, res) {
   User.findById(req.params.id, function(error, user) {
   if(error) { console.log(error) }
     user.firstname = req.body.user.firstname;
@@ -57,7 +57,7 @@ exports.put_user = function (req, res) {
   })
 };
 
-exports.del_user = function (req, res) {
+exports.del = function (req, res) {
   User.remove({ _id: req.params.id }, function(error) {
     if(error) { 
       console.log(error);

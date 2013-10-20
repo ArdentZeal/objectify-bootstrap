@@ -2,7 +2,7 @@
 
 // Declare app level module 
 
-angular.module('objectify', ['objectify.users', 'objectify.static_pages', 'objectify.header', 'ui.bootstrap', 'ngRoute', 'objectify.authentication'])
+angular.module('objectify', ['objectify.objects_directive', 'objectify.users', 'objectify.static_pages', 'objectify.addresses', 'objectify.objects', 'objectify.header', 'ui.bootstrap', 'ngRoute', 'objectify.authentication'])
   .config(function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
     $routeProvider
@@ -28,8 +28,28 @@ angular.module('objectify', ['objectify.users', 'objectify.static_pages', 'objec
       })
       .when('/users/login', {
         templateUrl: '/users/login.html',
-        controller: 'UserControllerLogin'
+        controller: 'AddressControllerLogin'
       })
+        .when('/addresses/index', {
+            templateUrl: '/addresses/index.html',
+            controller: 'AddressControllerIndex'
+        })
+        .when('/addresses/new', {
+            templateUrl: '/addresses/new.html',
+            controller: 'AddressControllerNew'
+        })
+        .when('/addresses/edit/:id', {
+            templateUrl: '/addresses/edit.html',
+            controller: 'AddressControllerEdit'
+        })
+        .when('/addresses/show/:id', {
+            templateUrl: '/addresses/show.html',
+            controller: 'AddressControllerShow'
+        })
+        .when('/objects/new', {
+            templateUrl: '/objects/new.html',
+            controller: 'ObjectControllerNew'
+        })
       .otherwise({
         redirectTo: '/'
       });

@@ -66,3 +66,13 @@ exports.del = function (req, res) {
     res.send(200);
   })
 };
+
+exports.myaddresses = function(req, res) {
+    User.findById(req.user._id).populate("addresses").exec(function(error, user) {
+        if(error) {
+            res.json(500, error);
+        }
+
+        res.send(200, user);
+    });
+};

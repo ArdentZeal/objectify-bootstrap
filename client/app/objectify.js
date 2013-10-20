@@ -28,8 +28,12 @@ angular.module('objectify', ['objectify.objects_directive', 'objectify.users', '
       })
       .when('/users/login', {
         templateUrl: '/users/login.html',
-        controller: 'AddressControllerLogin'
+        controller: 'UserControllerLogin'
       })
+        .when('/myaddresses', {
+            templateUrl: '/users/myaddresses.html',
+            controller: 'UserControllerMyAddresses'
+        })
         .when('/addresses/index', {
             templateUrl: '/addresses/index.html',
             controller: 'AddressControllerIndex'

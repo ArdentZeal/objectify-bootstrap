@@ -119,4 +119,17 @@ angular.module('objectify.users', ['objectify.resource_service', 'objectify.dele
     $scope.login = function() {
       authentication.login({ username: $scope.login.username, password:$scope.login.password });
     };
+  })
+
+  .controller('UserControllerMyAddresses', function ($scope, $http, authentication) {
+    $scope.$watch(function() {
+        return authentication.currentUser;
+    }, function(currentUser) {
+        $scope.user = currentUser;
+    });
+
+    $scope.addresses = null;
+    $http.get('/api/myaddresses').then(function(response) {
+       $scope.addresses = response.data.addresses;
+    });
   });

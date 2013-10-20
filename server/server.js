@@ -123,6 +123,8 @@ app.post('/api/addresses', routes_address.create);
 app.put('/api/addresses/:id', routes_address.update);
 app.del('/api/addresses/:id', routes_address.del);
 
+app.get('/api/myaddresses', routes_user.myaddresses);
+
 // New Object
 app.post('/api/objects', function(req, res, next) {
  console.log(req.body.object.modelname);

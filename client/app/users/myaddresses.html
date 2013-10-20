@@ -1,0 +1,13 @@
+<h1>Addresses of User {{user.firstname}} {{user.lastname}}</h1>
+<table>
+    <tbody>
+        <tr>
+            <td ng-repeat="address in addresses">
+                <h3>Address {{$index + 1}}</h3>
+                {{address.street}} {{address.number}}<br />
+                {{address.zip}} {{address.city}}<br />
+                {{address.country}}
+            </td>
+        </tr>
+    </tbody>
+</table>

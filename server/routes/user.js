@@ -63,6 +63,7 @@ exports.del = function (req, res) {
       console.log(error);
       res.json(500, error); 
     }
+    console.log("here");
     res.send(200);
   })
 };

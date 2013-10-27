@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="objectify">
+  <head>
+    <meta charset='utf8'></meta>
+    <title>Axonic - Objectify</title>
+    <link rel='stylesheet' type="text/css" href='/vendor/bootstrap/css/bootstrap.css'>
+    <link rel='stylesheet' type="text/css" href='/vendor/bootstrap/css/bootstrap-theme.css'>
+    <link rel='stylesheet' type="text/css" href='/shared/modal_bootstrap3_fix.css'>
+  </head>
+  <body>
+    <nav class="navbar navbar-default" role="navigation" ng-controller="HeaderController">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Objectify</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href='/'>Home</a></li>
+          <li><a href="/users/index">Users</a></li>
+          <li><a href="/addresses/index">Addresses</a></li>
+          <li><a href="/myaddresses">MyAddresses</a></li>
+          <li><a href="/objects/new">New Object</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav pull-right">
+          <li ng-show="isAuthenticated()">
+            <a href="/users/show/{{user.id}}">{{user.firstname}} {{user.lastname}}</a>
+          </li>
+          <li ng-show="isAuthenticated()">
+            <a href="#" ng-click="logout()">Logout</a>
+          </li>
+          <li ng-hide="isAuthenticated()">
+            <a href="/users/login">Login</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Alerts -->
+    <div>
+      <alert ng-repeat="alert in alerts" type="alert.type" close="alert.close()">{{ alert.msg }}</alert>
+    </div>
+
+    <div ng-view></div>
+
+    <script type="text/javascript" src='/vendor/angular-1.2.0-rc.2/angular.js'></script>
+    <script type="text/javascript" src='/vendor/angular-1.2.0-rc.2/angular-resource.js'></script>
+    <script type="text/javascript" src='/vendor/angular-1.2.0-rc.2/angular-route.js'></script>
+    <script type="text/javascript" src='/vendor/ui-bootstrap/ui-bootstrap-tpls-0.6.0.js'></script>
+    <script type="text/javascript" src='/objectify.js'></script>
+    <script type="text/javascript" src='/services/resource_service.js'></script>
+    <script type="text/javascript" src='/services/authentication_service.js'></script>
+    <script type="text/javascript" src='/services/flash_service.js'></script>
+    <script type="text/javascript" src='/layout/module_header.js'></script>
+    <script type="text/javascript" src='/users/module_users.js'></script>
+    <script type="text/javascript" src='/addresses/module_addresses.js'></script>
+    <script type="text/javascript" src='/objects/module_objects.js'></script>
+    <script type="text/javascript" src='/objects/objects_directive.js'></script>
+    <script type="text/javascript" src='/static_pages/module_static_pages.js'></script>
+    <script type="text/javascript" src='/shared/delete_confirmation.js'></script>
+  </body>
+</html>

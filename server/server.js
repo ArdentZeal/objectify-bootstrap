@@ -55,7 +55,7 @@ app.use(passport.session());
 
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(express.static(path.join(__dirname, '..', 'client', 'app')));
+app.use(express.static(path.join(__dirname, '..', 'client', 'dist')));
 app.use(app.router);
 
 // development only
@@ -137,7 +137,7 @@ app.post('/api/objects', function(req, res, next) {
 
 // redirect all others to the index (HTML5 history)
 app.all('/*', function(req, res) {
-  res.sendfile(path.join(__dirname, '..', 'client', 'app', 'index.html'));
+  res.sendfile(path.join(__dirname, '..', 'client', 'dist', 'index.html'));
 });
 
 // A standard error handler - it picks up any left over errors and returns a nicely formatted server 500 error
